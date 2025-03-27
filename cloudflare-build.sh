@@ -1,57 +1,62 @@
 #!/bin/bash
 set -e # 出错时立即停止
 
-echo "=== Starting build process ==="
+echo "开始构建过程..."
+echo "时间: $(date)"
 
 # 安装依赖
-echo "Installing dependencies..."
-npm ci
+echo "正在安装依赖..."
+npm install
 
-# 使用生产配置文件进行构建
-echo "Building project with production config..."
+# 构建时使用生产配置
+echo "使用生产配置构建应用..."
 cp next.config.production.js next.config.js
-NODE_ENV=production npm run build
+npm run build
 
 # 确保输出目录存在
-mkdir -p ./out
+echo "确保输出目录存在..."
+mkdir -p out
 
-# 选择性地复制静态文件到输出目录，跳过index.html
-echo "Copying selective static files..."
-# 不复制index.html，只复制其他静态文件
-for file in ./public/*; do
-  filename=$(basename "$file")
-  if [ "$filename" != "index.html" ]; then
-    cp -r "$file" ./out/
-  fi
-done
+# 复制静态文件到输出目录
+echo "将静态文件复制到输出目录..."
+cp -r .next/static out/_next/
+cp -r public/* out/
 
-echo "Contents of public directory:"
-ls -la ./public/
-echo "Contents of out directory after copy:"
-ls -la ./out/
-
-# 创建404页面（将指向主页）
-echo "Creating 404 page..."
-cp ./out/index.html ./out/404.html
+# 创建专门的静态HTML文件
+echo "创建备用和静态HTML文件..."
+cp out/index.html out/index.html.static
+cp out/index.html out/static.html
+cp out/404.html out/fallback.html
 
 # 确保_redirects文件存在
-if [ ! -f ./out/_redirects ]; then
-  echo "Creating _redirects file..."
-  echo "/* /index.html 200" > ./out/_redirects
+echo "确保_redirects文件存在..."
+if [ ! -f "out/_redirects" ]; then
+  cp public/_redirects out/
 fi
 
-# 确保_routes.json文件存在
-if [ ! -f ./out/_routes.json ]; then
-  echo "Creating _routes.json file..."
-  echo '{ "version": 1, "include": ["/*"], "exclude": [] }' > ./out/_routes.json
+# 确保_routes.json文件存在，用于Cloudflare Pages
+echo "确保_routes.json文件存在..."
+if [ ! -f "out/_routes.json" ]; then
+  echo '{
+  "version": 1,
+  "include": ["/*"],
+  "exclude": ["/_next/*"]
+}' > out/_routes.json
 fi
 
-# 输出重要文件内容
-echo "Contents of _redirects:"
-cat ./out/_redirects
-echo "Contents of _routes.json:"
-cat ./out/_routes.json
+# 复制rootindex.html为主索引文件
+if [ -f "public/rootindex.html" ]; then
+  echo "使用自定义根索引文件..."
+  cp public/rootindex.html out/index.html
+fi
 
-# 输出构建时间戳
-echo "Build completed at $(date)"
+# 展示文件
+echo "out/_redirects内容:"
+cat out/_redirects
+
+echo "out/_routes.json内容:"
+cat out/_routes.json
+
+echo "构建完成!"
+echo "时间: $(date)"
 echo "=== Build process completed ===" 

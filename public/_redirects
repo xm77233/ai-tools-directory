@@ -1,10 +1,26 @@
-# 处理错误情况，显示备用页面
+# 首页路径处理
+/ /index.html 200
+/index.html /index.html 200
+
+# 静态资源访问规则
+/_next/* /_next/:splat 200
+/static/* /static/:splat 200
+/images/* /images/:splat 200
+/icons/* /icons/:splat 200
+
+# 专属静态页面
+/static.html /static.html 200
+/index.html.static /index.html.static 200
+
+# 错误页面处理
 /error /fallback.html 200
+/404 /404.html 200
+/404.html /404.html 200
+/fallback.html /fallback.html 200
 
 # 主要SPA路由 - 都指向index.html
-/* /index.html 200
 /categories/* /index.html 200
 /tools/* /index.html 200
 
-# 确保静态资源可用
-/_next/* /_next/:splat 200
+# 兜底规则
+/* /index.html 200
