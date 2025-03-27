@@ -1,0 +1,6 @@
+{
+  "buildCommand": "chmod +x ./cloudflare-build.sh && ./cloudflare-build.sh",
+  "outputDirectory": "out",
+  "deploymentStrategy": "static",
+  "nodeVersion": "18"
+} 
