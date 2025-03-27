@@ -7,7 +7,7 @@ const nextConfig = {
   },
   // 注意：output: 'export' 不能与 ISR (revalidate) 同时使用
   // 如果需要静态导出，必须移除所有 getStaticProps 中的 revalidate 配置
-  // output: 'export', // 静态导出以兼容Cloudflare Pages
+  output: 'export', // 静态导出以兼容Cloudflare Pages
   
   // 解决SVG水合问题
   webpack(config) {
