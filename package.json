@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "export": "next build && next export",
-    "cloudflare": "chmod +x ./cloudflare-build.sh && ./cloudflare-build.sh"
+    "cloudflare": "chmod +x ./cloudflare-build.sh && ./cloudflare-build.sh",
+    "deploy:windows": "cross-env NODE_ENV=production next build && powershell -Command \"New-Item -ItemType Directory -Force -Path out; Set-Content -Path out/_redirects -Value '/* /index.html 200'; Add-Content -Path out/_redirects -Value '/categories/* /index.html 200'; Add-Content -Path out/_redirects -Value '/tools/* /index.html 200'\""
   },
   "dependencies": {
     "next": "^14.1.0",
@@ -22,6 +23,7 @@
     "@types/react": "^18.3.20",
     "@types/react-dom": "^18.3.5",
     "autoprefixer": "^10.4.21",
+    "cross-env": "^7.0.3",
     "eslint": "^8.56.0",
     "eslint-config-next": "14.1.0",
     "postcss": "^8.5.3",

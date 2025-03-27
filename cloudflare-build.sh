@@ -15,9 +15,16 @@ NODE_ENV=production npm run build
 # 确保输出目录存在
 mkdir -p ./out
 
-# 将静态文件复制到输出目录
-echo "Copying static files..."
-cp -r ./public/* ./out/
+# 选择性地复制静态文件到输出目录，跳过index.html
+echo "Copying selective static files..."
+# 不复制index.html，只复制其他静态文件
+for file in ./public/*; do
+  filename=$(basename "$file")
+  if [ "$filename" != "index.html" ]; then
+    cp -r "$file" ./out/
+  fi
+done
+
 echo "Contents of public directory:"
 ls -la ./public/
 echo "Contents of out directory after copy:"
