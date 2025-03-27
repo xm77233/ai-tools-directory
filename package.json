@@ -9,7 +9,8 @@
     "lint": "next lint",
     "export": "next build && next export",
     "cloudflare": "chmod +x ./cloudflare-build.sh && ./cloudflare-build.sh",
-    "deploy:windows": "cross-env NODE_ENV=production next build && powershell -Command \"New-Item -ItemType Directory -Force -Path out; Set-Content -Path out/_redirects -Value '/* /index.html 200'; Add-Content -Path out/_redirects -Value '/categories/* /index.html 200'; Add-Content -Path out/_redirects -Value '/tools/* /index.html 200'\""
+    "deploy:windows": "cross-env NODE_ENV=production next build && powershell -Command \"New-Item -ItemType Directory -Force -Path out; Set-Content -Path out/_redirects -Value '/* /index.html 200'; Add-Content -Path out/_redirects -Value '/categories/* /index.html 200'; Add-Content -Path out/_redirects -Value '/tools/* /index.html 200'\"",
+    "cf-pages": "chmod +x ./cloudflare-direct-build.sh && ./cloudflare-direct-build.sh"
   },
   "dependencies": {
     "next": "^14.1.0",
