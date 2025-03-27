@@ -1,31 +1,42 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* 导入Tailwind CSS */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
+/* 自定义CSS变量 */
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 255, 255, 255;
   --background-end-rgb: 255, 255, 255;
+
+  /* 主题颜色 */
+  --color-primary: #0284c7;
+  --color-secondary: #7c3aed;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+/* 暗色模式变量 */
+.dark {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
 }
 
+/* 基础样式 */
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: rgb(var(--background-start-rgb));
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
 }
 
+/* 确保页面内容可见 */
+#__next {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* 自定义组件类 */
 @layer base {
   h1 {
     @apply text-3xl font-bold md:text-4xl;
