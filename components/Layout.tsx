@@ -15,17 +15,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <meta charSet="utf-8" />
         <meta name="description" content="发现、探索和使用最新的AI工具，提高你的工作效率" />
         <title>AI工具导航</title>
-        {/* 确保Google Analytics在每个页面都可用 */}
+        {/* Google Analytics */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-XHWYK8HRC9"></script>
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              if (typeof window.dataLayer === 'undefined') {
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', 'G-XHWYK8HRC9');
-              }
-            `,
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-XHWYK8HRC9');
+            `
           }}
         />
       </Head>
