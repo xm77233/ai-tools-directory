@@ -22,6 +22,16 @@ echo "将静态文件复制到输出目录..."
 cp -r .next/static out/_next/
 cp -r public/* out/
 
+# 检查生成的HTML文件是否包含Google Analytics代码
+echo "验证Google Analytics代码..."
+for htmlfile in $(find out -name "*.html"); do
+  if ! grep -q "G-XHWYK8HRC9" "$htmlfile"; then
+    echo "向 $htmlfile 添加Google Analytics代码..."
+    # 在</head>前插入Google Analytics代码
+    sed -i 's/<\/head>/<!-- Google tag (gtag.js) -->\n<script async src="https:\/\/www.googletagmanager.com\/gtag\/js?id=G-XHWYK8HRC9"><\/script>\n<script>\n  window.dataLayer = window.dataLayer || [];\n  function gtag(){dataLayer.push(arguments);}\n  gtag("js", new Date());\n  gtag("config", "G-XHWYK8HRC9");\n<\/script>\n<\/head>/g' "$htmlfile"
+  fi
+done
+
 # 创建专门的静态HTML文件
 echo "创建备用和静态HTML文件..."
 cp out/index.html out/index.html.static
